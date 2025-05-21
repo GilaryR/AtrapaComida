@@ -13,10 +13,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -34,6 +38,11 @@ public class JuegoPanel extends JPanel {
     private final List<Veneno> venenos;
     private int puntaje;
     private final Image fondo;
+    private HiloVeneno hiloVeneno;
+    private Thread threadVeneno;
+    private boolean juegoActivo = true;
+
+
 
     /**
      * Constructor que inicializa el panel del juego.
@@ -59,7 +68,22 @@ public class JuegoPanel extends JPanel {
         // Inicia los hilos para generar comida y veneno
         new Thread(new HiloComida(comidas, this)).start();
         new Thread(new HiloVeneno(venenos, this)).start();
+        hiloVeneno = new HiloVeneno(venenos, this);
+        threadVeneno = new Thread(hiloVeneno);
+        threadVeneno.start();
 
+        new Thread(() -> {
+        try {
+            URL musicaURL = getClass().getResource("/autonoma/AtrapaComida/sounds/Lluvia.wav");
+            AudioInputStream audio = AudioSystem.getAudioInputStream(musicaURL);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        } catch (Exception ex) {
+            System.err.println("Error al reproducir música de fondo: " + ex.getMessage());
+        }
+    }).start();
         // Temporizador para repintar el componente
         Timer timer = new Timer(10, e -> repaint());
         timer.start();
@@ -146,14 +170,23 @@ public class JuegoPanel extends JPanel {
                 comida.dibujar(g);
             }
         }
-
-        // Dibuja todos los venenos
         synchronized (venenos) {
             for (Veneno veneno : venenos) {
                 veneno.dibujar(g);
-            }
-        }
+    }
+}
 
+        if (juegoActivo) {
+            for (Comida c : comidas) {
+                if (c.getY() > getHeight()) {
+                juegoActivo = false;
+                hiloVeneno.detener();
+                break;
+        }
+    }
+}
+
+      
         // Dibuja el marcador de puntaje
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.10f));

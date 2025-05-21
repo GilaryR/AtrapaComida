@@ -1,32 +1,30 @@
-
 package autonoma.AtrapaComida.elements;
-
 
 import autonoma.AtrapaComida.ui.JuegoPanel;
 import java.util.List;
 import java.util.Random;
-import javax.swing.Timer;
 
 /**
  * Hilo encargado de controlar la generación y movimiento de elementos de veneno en el juego.
  * Gestiona la aparición aleatoria de veneno, su caída y eliminación cuando salen de la pantalla.
+ * Se detiene cuando la partida termina (por ejemplo, si una comida no es atrapada).
  * 
  * @author Gilary
  * @since 18-05-2025
- * @version 1.0
+ * @version 1.1
  */
 public class HiloVeneno implements Runnable {
     /** Lista que contiene todos los elementos de veneno activos en el juego */
     private final List<Veneno> venenos;
-    
+
     /** Panel principal del juego donde se renderizan los elementos */
     private final JuegoPanel panel;
-    
+
     /** Generador de números aleatorios para posicionamiento */
     private final Random random = new Random();
-    
-    /** Temporizador no utilizado actualmente (reservado para futuras implementaciones) */
-    private Timer timer;
+
+    /** Bandera para controlar la ejecución del hilo */
+    private volatile boolean activo = true;
 
     /**
      * Construye un nuevo hilo de control para elementos de veneno.
@@ -37,6 +35,13 @@ public class HiloVeneno implements Runnable {
     public HiloVeneno(List<Veneno> venenos, JuegoPanel panel) {
         this.venenos = venenos;
         this.panel = panel;
+    }
+
+    /**
+     * Detiene la ejecución del hilo.
+     */
+    public void detener() {
+        activo = false;
     }
 
     /**
@@ -65,51 +70,56 @@ public class HiloVeneno implements Runnable {
      */
     @Override
     public void run() {
-        while (true) {
+        while (activo) {
             synchronized (venenos) {
                 // Generación de nuevo veneno si no se ha alcanzado el límite
                 if (venenos.size() < 6) {
                     int maxX = panel.getWidth() - Veneno.ANCHO;
-                    
-                    // Esperar si el panel no tiene ancho válido aún
+
                     if (maxX <= 0) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ignored) {}
+                        dormir(50);
                         continue;
                     }
-                    
+
                     // Buscar posición no superpuesta
                     int xNuevo;
+                    int intentos = 0;
                     do {
                         xNuevo = random.nextInt(maxX);
+                        intentos++;
+                        if (intentos > 10) break;
                     } while (seSuperpone(xNuevo));
-                    
+
                     venenos.add(new Veneno(xNuevo));
                 }
 
-                // Mover y verificar todos los elementos de veneno
+                // Mover venenos hacia abajo y eliminarlos si salen de la pantalla
                 for (int i = 0; i < venenos.size(); i++) {
                     Veneno v = venenos.get(i);
-                    v.caer(5); // Mover hacia abajo
-                    
-                    // Eliminar si sale por la parte inferior
+                    v.caer(3);
+
                     if (v.getY() > panel.getHeight()) {
                         venenos.remove(i);
-                        i--; // Ajustar índice después de remover
+                        i--;
                     }
                 }
             }
-            
-            // Actualizar visualización
+
+            // Actualizar vista
             panel.repaint();
-            
-            // Pausa para controlar velocidad del juego
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            dormir(50);
+        }
+    }
+
+    /**
+     * Método auxiliar para pausar el hilo unos milisegundos.
+     * 
+     * @param ms Tiempo en milisegundos para dormir
+     */
+    private void dormir(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ignored) {
         }
     }
 }
