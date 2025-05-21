@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package autonoma.AtrapaComida.elements;
 
 import java.awt.Graphics;
@@ -30,7 +26,7 @@ public class Veneno extends Elemento {
      */
     public Veneno(int x) {
         super(x);
-        imagen = new ImageIcon(getClass().getResource("/autonoma/ComidaQueCae/images/Veneno.png")).getImage();
+        imagen = new ImageIcon(getClass().getResource("/autonoma/AtrapaComida/images/Veneno.png")).getImage();
     }
 
     /**

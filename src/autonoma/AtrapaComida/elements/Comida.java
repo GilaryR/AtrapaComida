@@ -24,7 +24,7 @@ public class Comida extends Elemento {
      */
     public Comida(int x) {
         super(x);
-        imagen = new ImageIcon(getClass().getResource("/autonoma/ComidaQueCae/images/Comida.png")).getImage();
+        imagen = new ImageIcon(getClass().getResource("/autonoma/AtrapaComida/images/Comida.png")).getImage();
     }
 
     /**

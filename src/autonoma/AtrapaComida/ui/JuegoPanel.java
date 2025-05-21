@@ -34,7 +34,7 @@ public class JuegoPanel extends JPanel {
         this.venenos = Collections.synchronizedList(new ArrayList<>());
         this.puntaje = 0;
 
-        fondo = new ImageIcon(getClass().getResource("/autonoma/ComidaQueCae/images/Cielo.jpg")).getImage();
+        fondo = new ImageIcon(getClass().getResource("/autonoma/AtrapaComida/images/Cielo.jpg")).getImage();
         setFocusable(true);
 
         addMouseListener(new MouseAdapter() {

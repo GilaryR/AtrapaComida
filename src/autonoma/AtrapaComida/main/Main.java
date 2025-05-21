@@ -8,12 +8,12 @@ import javax.swing.SwingUtilities;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Lluvia de Comida");
+            JFrame frame = new JFrame("Atrapa Comida");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(533, 398);  
             frame.setResizable(false); 
             frame.setLocationRelativeTo(null); 
-            frame.setIconImage(new ImageIcon(Main.class.getResource("/autonoma/ComidaQueCae/images/Icono.png")).getImage());
+            frame.setIconImage(new ImageIcon(Main.class.getResource("/autonoma/AtrapaComida/images/Icono.png")).getImage());
 
             JuegoPanel panel = new JuegoPanel();
             frame.add(panel);
