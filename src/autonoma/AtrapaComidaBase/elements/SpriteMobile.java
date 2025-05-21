@@ -1,6 +1,6 @@
-package autonoma.ComidaQueCaeBase.elements;
+package autonoma.AtrapaComidaBase.elements;
 
-import autonoma.ComidaQueCaeBase.elements.Sprite;
+import autonoma.AtrapaComidaBase.elements.Sprite;
 
 /**
  * Clase abstracta que representa un sprite con capacidad de movimiento.

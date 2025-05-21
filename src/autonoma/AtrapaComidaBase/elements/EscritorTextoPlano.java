@@ -1,6 +1,6 @@
-package autonoma.ComidaQueCaeBase.elements;
+package autonoma.AtrapaComidaBase.elements;
 
-import autonoma.ComidaQueCaeBase.elements.Escritor;
+import autonoma.AtrapaComidaBase.elements.Escritor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

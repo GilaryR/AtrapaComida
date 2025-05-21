@@ -1,4 +1,4 @@
-package autonoma.ComidaQueCaeBase.elements;
+package autonoma.AtrapaComidaBase.elements;
 import java.awt.Rectangle;
 
 /**

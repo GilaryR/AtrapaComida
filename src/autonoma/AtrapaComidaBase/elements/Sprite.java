@@ -1,6 +1,6 @@
-package autonoma.ComidaQueCaeBase.elements;
+package autonoma.AtrapaComidaBase.elements;
 
-import autonoma.ComidaQueCaeBase.elements.GraphicContainer;
+import autonoma.AtrapaComidaBase.elements.GraphicContainer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;

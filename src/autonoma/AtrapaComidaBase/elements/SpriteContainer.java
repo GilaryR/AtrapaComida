@@ -1,6 +1,6 @@
-package autonoma.ComidaQueCaeBase.elements;
-import autonoma.ComidaQueCaeBase.elements.GraphicContainer;
-import autonoma.ComidaQueCaeBase.elements.Sprite;
+package autonoma.AtrapaComidaBase.elements;
+import autonoma.AtrapaComidaBase.elements.GraphicContainer;
+import autonoma.AtrapaComidaBase.elements.Sprite;
 import java.util.ArrayList;
 
 /**

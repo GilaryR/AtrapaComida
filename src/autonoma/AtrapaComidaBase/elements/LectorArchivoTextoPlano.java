@@ -1,6 +1,6 @@
-package autonoma.ComidaQueCaeBase.elements;
+package autonoma.AtrapaComidaBase.elements;
 
-import autonoma.ComidaQueCaeBase.elements.Lector;
+import autonoma.AtrapaComidaBase.elements.Lector;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
